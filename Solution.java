@@ -18,31 +18,26 @@ public class Solution {
     }
     scanner.close();
 
-    long mininmumDaysForProduction =
-        search_mininmumDaysForProduction(machineCapacity, targetProduction);
-
+    long mininmumDaysForProduction = search_mininmumDaysForProduction(machineCapacity, targetProduction);
     System.out.println(mininmumDaysForProduction);
   }
 
   /**
-   * With the given number of machines and their corresponding production rate as input, applying
-   * binary search to find the minimum days needed to manufacture the target production.
+   * With the given number of machines and their corresponding production rate as input, 
+   * applying binary search to find the minimum days needed to manufacture the target production.
    *
    * @return A long integer, representing the minimum production days.
    */
   private static long search_mininmumDaysForProduction(
       int[] machineCapacity, int targetProduction) {
 
-    Arrays.sort(machineCapacity);
-
-    // lowerLimit_days: minimum target production, manufactured at the fastest rate by at least one
-    // machine.
+    // lowerLimit_days: minimum target production, manufactured at the fastest rate by at least one machine.
     long lowerLimit_days = 1;
 
-    // upperLimit_days: maximum target production, manufactured at the slowest rate by only one
-    // machine.
+    // upperLimit_days: maximum target production, manufactured at the slowest rate by only one machine.
     long upperLimit_days = MAX_DAYS_PER_MACHINE_FOR_ONE_PRODUCT * MAX_PRODUCTION_GOAL;
 
+    Arrays.sort(machineCapacity);
     long minimumDays_forProduction = 0;
 
     while (upperLimit_days >= lowerLimit_days) {
@@ -50,16 +45,16 @@ public class Solution {
       long production = 0;
 
       for (int i = 0; i < machineCapacity.length; i++) {
-        production = production + (days_forProduction / (long) machineCapacity[i]);
+        production += days_forProduction / (long) machineCapacity[i];
         if (production >= targetProduction) {
           minimumDays_forProduction = days_forProduction;
           break;
         }
       }
       /**
-       * Even if (production == targetProduction), it is still possible to have a smaller number of
-       * days for production, since (days_forProduction / (long) machineCapacity[i]) returns the
-       * lower boundary integer of this division.
+       * Even if (production == targetProduction), it is still possible to have a smaller 
+       * number of days for production, since (days_forProduction / (long) machineCapacity[i]) 
+       * returns the lower boundary integer of this division.
        */
       if (production >= targetProduction) {
         upperLimit_days = days_forProduction - 1;
